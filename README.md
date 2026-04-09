@@ -165,9 +165,9 @@ Where:
 
 ## 📊 Interactive Normal Distribution
 
-👉 [Click here to use the interactive graph](https://codepen.io/Ashish-prajapati-the-sasster/pen/raMZoJZl)
+👉 [Click here to use the interactive graph](https://anticoder03.github.io/Distribution-Analysis-and-scaling/)
+<iframe src="https://anticoder03.github.io/Distribution-Analysis-and-scaling/" width="100%" height="500"></iframe>
 
-<iframe src="https://codepen.io/Ashish-prajapati-the-sasster/pen/raMZoJZ" width="100%" height="500"></iframe>
 
 
 ---
