@@ -205,3 +205,217 @@ That’s why:
 
 👉 This combo tells you if your model assumptions are valid (especially in ML & stats).
 
+
+---
+# Scaling
+
+
+
+# 📊 What is Scaling?
+
+👉 Scaling = **bringing all features to a similar range**
+
+Why?
+Because different features can have totally different scales:
+
+Example:
+
+* Age → 18 to 60
+* Salary → 20,000 to 2,00,000
+
+👉 Without scaling:
+
+* Model gives **more importance to bigger numbers**
+* Results become biased
+
+---
+
+# ⚠️ Why Scaling is Important
+
+* Improves **model accuracy**
+* Speeds up **training**
+* Required for:
+
+  * KNN
+  * SVM
+  * Gradient Descent
+  * Neural Networks
+
+👉 Not needed much for:
+
+* Decision Trees
+* Random Forest
+
+---
+
+# 🔥 Types of Scaling
+
+---
+
+## 1. Min-Max Scaling (Normalization)
+
+👉 Converts data to range **[0, 1]**
+
+x' = \frac{x - x_{min}}{x_{max} - x_{min}}
+
+### 💡 Example:
+
+If values are [10, 20, 30]
+
+→ becomes [0, 0.5, 1]
+
+---
+
+## 2. Standardization (Z-score Scaling)
+
+👉 Centers data around 0
+
+x' = \frac{x - \mu}{\sigma}
+
+### 💡 Result:
+
+* Mean = 0
+* Std Dev = 1
+
+---
+
+## 3. Robust Scaling
+
+👉 Uses median (good for outliers)
+
+Formula idea:
+
+* subtract median
+* divide by IQR
+
+---
+
+# 🧠 When to Use What
+
+| Method          | Use Case                    |
+| --------------- | --------------------------- |
+| Min-Max         | Neural networks, image data |
+| Standardization | Most ML models              |
+| Robust          | When outliers exist         |
+
+---
+
+# 💻 Now the Real Deal — Build Your Own Scaler (Python)
+
+No sklearn. Pure logic. This is what you wanted 😏
+
+---
+
+## ✅ 1. Min-Max Scaler (Custom)
+
+```python
+class MinMaxScalerCustom:
+    def __init__(self):
+        self.min = None
+        self.max = None
+
+    def fit(self, data):
+        self.min = min(data)
+        self.max = max(data)
+
+    def transform(self, data):
+        return [(x - self.min) / (self.max - self.min) for x in data]
+
+    def fit_transform(self, data):
+        self.fit(data)
+        return self.transform(data)
+```
+
+---
+
+## ✅ 2. Standard Scaler (Z-score)
+
+```python
+import math
+
+class StandardScalerCustom:
+    def __init__(self):
+        self.mean = None
+        self.std = None
+
+    def fit(self, data):
+        self.mean = sum(data) / len(data)
+        variance = sum((x - self.mean) ** 2 for x in data) / len(data)
+        self.std = math.sqrt(variance)
+
+    def transform(self, data):
+        return [(x - self.mean) / self.std for x in data]
+
+    def fit_transform(self, data):
+        self.fit(data)
+        return self.transform(data)
+```
+
+---
+
+## ✅ 3. Robust Scaler
+
+```python
+class RobustScalerCustom:
+    def __init__(self):
+        self.median = None
+        self.iqr = None
+
+    def fit(self, data):
+        sorted_data = sorted(data)
+        n = len(data)
+
+        self.median = sorted_data[n // 2]
+        q1 = sorted_data[n // 4]
+        q3 = sorted_data[(3 * n) // 4]
+
+        self.iqr = q3 - q1
+
+    def transform(self, data):
+        return [(x - self.median) / self.iqr for x in data]
+
+    def fit_transform(self, data):
+        self.fit(data)
+        return self.transform(data)
+```
+
+---
+
+# 🚀 Example Usage
+
+```python
+data = [10, 20, 30, 40, 50]
+
+scaler = MinMaxScalerCustom()
+scaled = scaler.fit_transform(data)
+
+print(scaled)
+```
+
+---
+
+# 💡 Pro Insight (Important)
+
+👉 Always:
+
+* Fit on **training data only**
+* Then transform:
+
+  * training data
+  * test data
+
+❌ Don’t fit separately on test data → data leakage
+
+---
+
+# 🧠 Real Talk
+
+Scaling is not just “preprocessing”
+👉 It directly affects how your model *learns*
+
+If your model is behaving weird:
+👉 80% chance scaling is wrong
+
+---
+
+
